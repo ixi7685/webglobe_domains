@@ -26,12 +26,12 @@ export default {
   data() {
     return {
       selectedDomain: null,
-      isLoading: ''
+      error: null,
     };
   },
   methods: {
     async loadDomain() {
-      this.isLoading = true;
+      
       try {
         await this.$store.dispatch('domains/loadDomain', {
           id: this.id
@@ -40,7 +40,6 @@ export default {
       } catch (error) {
         this.error = error.message || 'Something went wrong!';
       }
-      this.isLoading = false;
     },
     handleError() {
       this.error = null;
