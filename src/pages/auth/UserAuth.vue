@@ -16,15 +16,7 @@
           <label for="password">Password</label>
           <input type="password" id="password" v-model.trim="password" />
         </div>
-        <div class="form-control">
-          <label for="otp">Opt</label>
-          <input type="text" id="otp" v-model.trim="otp" />
-        </div>
-        <div class="form-control">
-          <label for="customer_login">Sms</label>
-          <input type="text" id="sms" v-model.trim="sms" />
-        </div>
-        <p v-if="!formIsValid">Please enter a valid data.</p>
+      <p v-if="!formIsValid">Please enter a valid data.</p>
         <base-button>Login</base-button>
       </form>
     </base-card>
@@ -37,8 +29,6 @@ export default {
     return {
       customer: '',
       password: '',
-      otp: '',
-      sms: '',
       formIsValid: true,
       isLoading: false,
       error: null
@@ -49,9 +39,7 @@ export default {
       this.formIsValid = true;
       if (
         this.customer === '' ||
-        this.password.length < 6 ||
-        this.otp.length < 6 ||
-        this.sms.length < 6
+        this.password.length < 6 
       ) {
         this.formIsValid = false;
         return;
@@ -62,9 +50,7 @@ export default {
       const actionPayload = {
         customer: this.customer,
         password: this.password,
-        otp: this.otp,
-        sms: this.customer
-      };
+      }  
 
       try {
         await this.$store.dispatch('login', actionPayload);

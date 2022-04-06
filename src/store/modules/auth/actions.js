@@ -1,26 +1,20 @@
-import axios from "axios";
+import axios from 'axios';
 
 let timer;
 
 export default {
   async login(context, payload) {
     return context.dispatch('auth', {
-      ...payload,
-     
+      ...payload
     });
   },
   async auth(context, payload) {
-   
-    let url = 'https://private-anon-82b46fd70c-zkp.apiary-mock.com/auth/login';
-    
+    let url = 'https://api.staging.webglobe.com/auth/login';
+
     const response = await axios.post(url, {
-       
-        'login': `${payload.id}`,
-        'password': `${payload.password}`,
-        'otp': `${payload.otp}`,
-        'sms': `${payload.sms}`
-      }
-    );
+      login: `${payload.customer}`,
+      password: `${payload.password}`
+    });
 
     const responseData = await response.data.data;
 
@@ -32,7 +26,7 @@ export default {
     }
 
     const expiresIn = +responseData.expires_in * 1000;
-    
+
     const expirationDate = new Date().getTime() + expiresIn;
 
     localStorage.setItem('token', responseData.token);

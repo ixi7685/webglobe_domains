@@ -62,7 +62,6 @@ export default {
       return this.$store.getters['domains/domains'];
     },
     filteredDomains() {
-      console.log(this.domains);
       return this.domains.filter(domain => {
         let byName =
           domain.domain.toLowerCase().indexOf(this.search.toLowerCase()) > -1;

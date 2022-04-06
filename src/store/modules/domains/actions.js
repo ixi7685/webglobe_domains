@@ -1,5 +1,16 @@
 import axios from 'axios';
 
+window.axios = axios
+axios.defaults.baseURL = 'http://localhost:8080'
+axios.interceptors.request.use(function(config){
+    config.headers.common = {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        "Content-Type":"application/json",
+        Accept:"application/json"
+    }
+    return config;
+})
+
 export default {
   async loadDomains(context, payload) {
     if (!payload.forceRefresh && !context.getters.shouldUpdate) {
@@ -7,7 +18,7 @@ export default {
     }
 
     const response = await axios.get(
-      `https://private-anon-a7281b5df3-zkp.apiary-mock.com/domains?full=true`
+      `https://api.staging.webglobe.com/domains?full=true`
     );
     const responseData = await response.data;
 
@@ -26,13 +37,12 @@ export default {
       domains.push(domain);
     }
 
-    console.log(domains);
     context.commit('setDomains', domains);
     context.commit('setFetchTimestamp');
   },
   async loadDomain(context, payload) {
     const response = await axios.get(
-      `https://private-anon-cf8badc0b3-zkp.apiary-mock.com/domains/${payload.id}`
+      `https://api.staging.webglobe.com/domains/${payload.id}`
     );
     const responseData = await response.data.data;
 
